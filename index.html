@@ -301,36 +301,52 @@
     </div>
 
     <script>
-        (function() {
-            const storyboard = document.getElementById('storyboard');
-            const btn1 = document.querySelector('.controls button[data-cols="1"]');
-            const btn2 = document.querySelector('.controls button[data-cols="2"]');
-            const btn3 = document.querySelector('.controls button[data-cols="3"]');
-            const btn4 = document.querySelector('.controls button[data-cols="4"]');
+        const storyboard = document.getElementById('storyboard');
+        const btn1 = document.querySelector('.controls button[data-cols="1"]');
+        const btn2 = document.querySelector('.controls button[data-cols="2"]');
+        const btn3 = document.querySelector('.controls button[data-cols="3"]');
+        const btn4 = document.querySelector('.controls button[data-cols="4"]');
 
-            function setColumns(colNumber) {
-                storyboard.classList.remove('columns-1', 'columns-2', 'columns-3', 'columns-4');
-                storyboard.classList.add('columns-' + colNumber);
-                const colNumberString = String(colNumber);
-                btn1.classList.toggle('active', colNumberString === '1');
-                btn2.classList.toggle('active', colNumberString === '2');
-                btn3.classList.toggle('active', colNumberString === '3');
-                btn4.classList.toggle('active', colNumberString === '4');
+        function setColumns(colNumber) {
+            storyboard.classList.remove('columns-1', 'columns-2', 'columns-3', 'columns-4');
+            storyboard.classList.add('columns-' + colNumber);
+            const colNumberString = String(colNumber);
+            localStorage.setItem("savedColNumber", colNumber);
+            btn1.classList.toggle('active', colNumberString === '1');
+            btn2.classList.toggle('active', colNumberString === '2');
+            btn3.classList.toggle('active', colNumberString === '3');
+            btn4.classList.toggle('active', colNumberString === '4');
+            console.log(`Set the columns to ${colNumber}`)
+        }
+
+        btn1.addEventListener('click', function() {
+            setColumns(1);
+        });
+        btn2.addEventListener('click', function() {
+            setColumns(2);
+        });
+        btn3.addEventListener('click', function() {
+            setColumns(3);
+        });
+        btn4.addEventListener('click', function() {
+            setColumns(4);
+        });
+
+
+        window.addEventListener("DOMContentLoaded", () => {
+            // Retrieve saved value
+            let username = localStorage.getItem("savedColNumber");
+            setColumns(username);
+
+            // Only run if it exists
+            if (username) {
+                console.log("Welcome back, " + savedColNumber);
+                // Example: display in the page
+                document.body.innerHTML += `<h1>Welcome back, ${username}!</h1>`;
+            } else {
+                console.log("No saved username found.");
             }
-
-            btn1.addEventListener('click', function() {
-                setColumns(1);
-            });
-            btn2.addEventListener('click', function() {
-                setColumns(2);
-            });
-            btn3.addEventListener('click', function() {
-                setColumns(3);
-            });
-            btn4.addEventListener('click', function() {
-                setColumns(4);
-            });
-        })();
+        });
     </script>
 </body>
 </html>
