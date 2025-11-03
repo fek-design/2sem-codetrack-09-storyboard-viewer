@@ -335,17 +335,8 @@
 
         window.addEventListener("DOMContentLoaded", () => {
             // Retrieve saved value
-            let username = localStorage.getItem("savedColNumber");
-            setColumns(username);
-
-            // Only run if it exists
-            if (username) {
-                console.log("Welcome back, " + savedColNumber);
-                // Example: display in the page
-                document.body.innerHTML += `<h1>Welcome back, ${username}!</h1>`;
-            } else {
-                console.log("No saved username found.");
-            }
+            let storyboardColumns = localStorage.getItem("savedColNumber");
+            setColumns(storyboardColumns);
         });
     </script>
 </body>
