@@ -22,6 +22,37 @@
             color: #111;
         }
 
+        #toast-container {
+            position: fixed;
+            bottom: 8%;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            pointer-events: none; /* prevents blocking clicks behind */
+        }
+        /* Toast box */
+        .toast {
+            padding: 12px 24px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+            font-family: system-ui, sans-serif;
+            font-size: 16px;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+            margin-top: 8px;
+            text-align: center;
+            background-color: white;
+            border-radius: 4px;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
         .wrap {
             max-width: var(--max-width);
             margin: 1.5rem auto;
@@ -155,6 +186,7 @@
 </head>
 <body>
     <div class="wrap">
+        <div id="toast-container"></div>
         <header>
             <h1>Storyboard Viewer</h1>
             <div class="controls" aria-hidden="false">
@@ -297,6 +329,7 @@
                     </figcaption>
                 </figure>
             </section>
+
         </main>
     </div>
 
@@ -321,17 +354,38 @@
 
         btn1.addEventListener('click', function() {
             setColumns(1);
+            showToast()
         });
         btn2.addEventListener('click', function() {
             setColumns(2);
+            showToast()
         });
         btn3.addEventListener('click', function() {
             setColumns(3);
+            showToast()
         });
         btn4.addEventListener('click', function() {
             setColumns(4);
+            showToast()
         });
 
+        function showToast(duration = 2500) {
+            const container = document.getElementById("toast-container");
+            const toast = document.createElement("div");
+            toast.classList.add("toast");
+            toast.textContent = "Your choice has been saved.";
+
+            container.appendChild(toast);
+
+            // Animate in
+            requestAnimationFrame(() => toast.classList.add("show"));
+
+            // Animate out after duration
+            setTimeout(() => {
+                toast.classList.remove("show");
+                setTimeout(() => toast.remove(), 400); // wait for transition
+            }, duration);
+        }
 
         window.addEventListener("DOMContentLoaded", () => {
             // Retrieve saved value
